@@ -1,0 +1,417 @@
+--A Ceglédi kistérséghez tartozó városok nevei:
+SELECT varos.vnev
+FROM varos
+WHERE varos.kisterseg = "Ceglédi";
+
+--Az 5000 főnél népesebb vársok neve és népessége:
+SELECT varos.vnev, varos.nepesseg
+FROM varos
+WHERE varos.nepesseg > 5000
+
+--Az 50 és 150 km2 közötti vársok neve, népessége és járása népesség szerint csökkenő sorrendben:
+SELECT varos.vnev, varos.nepesseg, varos.jaras
+FROM varos
+WHERE varos.terulet >= 50 AND varos.terulet <= 150
+ORDER BY varos.nepesseg DESC
+
+--Melyik város a legkisebb területű? Írjuk ki a nevét, területét és népességszámát:
+SELECT varos.vnev, varos.terulet, varos.nepesseg
+FROM varos
+ORDER BY varos.terulet ASC
+LIMIT 1;
+
+--Melyik a három legnépesebb város Budapesten kívül? Írjuk a nevüket és hogy melyik kistérséghez tartoznak:
+SELECT varos.vnev, varos.kisterseg
+FROM varos
+WHERE varos.vnev <> "Budapest"
+ORDER BY nepesseg DESC
+LIMIT 3;
+
+--Írjuk ki azon városok minden adatát, amelyeknél a kistérség neve nem egyezik meg a járáséval:
+SELECT *
+FROM varos
+WHERE varos.kisterseg <> varos.jaras;
+
+--Hány város tartozik a Budakeszi járáshoz? A válasz fejléce darab legyen:
+SELECT COUNT(*) AS darab
+FROM varos
+WHERE varos.jaras = "Budakeszi";
+
+--Hány város területe kisebb, mint 10 km2? A válasz fejléce kicsik legyen:
+SELECT COUNT(*) AS kicsik
+FROM varos
+WHERE varos.terulet < 10;
+
+--Írjuk azon városok nevét és lélekszámát, amelyek neve Kiskunnal kezdődik
+SELECT varos.vnev, varos.nepesseg
+FROM varos
+WHERE varos.vnev LIKE "Kiskun%";
+
+--Írjuk azon városok nevét és területét, amelyek neve pontosan 4 betű:
+SELECT varos.vnev, varos.terulet
+FROM varos
+WHERE varos.vnev LIKE "____";
+
+--A három legkisebb népességű város neve és járása:
+SELECT varos.vnev, varos.jaras
+FROM varos
+ORDER BY varos.nepesseg ASC
+LIMIT 3;
+
+--Írassuk ki a Bács-Kiskun megyei városok nevét és népességét:
+SELECT varos.vnev, varos.nepesseg
+FROM varos INNER JOIN megye ON varos.megyeid = megye.id
+WHERE megye.mnev = "Bács-Kiskun";
+
+--Megyei jogú városok népesség szerint csökkenő sorban:
+SELECT varos.vnev, varos.nepesseg
+FROM varos INNER JOIN varostipus ON varos.vtipid = varostipus.id
+WHERE varostipus.vtip LIKE "%megyei jogú város%"
+ORDER BY varos.nepesseg DESC;
+
+--Hány város van Fejér megyében:
+SELECT COUNT(*) AS db
+FROM varos INNER JOIN megye ON varos.megyeid = megye.id
+WHERE megye.mnev = "Fejér";
+
+--Melyik megyében összesen mennyi városlakó van:
+SELECT megye.mnev, SUM(varos.nepesseg) AS lakosok
+FROM varos INNER JOIN megye ON varos.megyeid = megye.id
+GROUP BY megye.mnev;
+
+--Mely települések tartoznak ugyanahhoz a járáshoz, mint Adony:
+SELECT varos.vnev
+FROM varos
+WHERE varos.jaras = (
+    SELECT varos.jaras
+	FROM varos
+	WHERE varos.vnev = "Adony");
+
+--Bácsalmásnél kisebb népességű városok:
+SELECT varos.vnev, varos.nepesseg
+FROM varos
+WHERE varos.nepesseg < (
+    SELECT varos.nepesseg
+    FROM varos
+	WHERE varos.vnev = "Bácsalmás")
+
+--Melyik városok vannak ugyanabban a megyében, mint Mohács? Mohács ne jelenjen meg!
+SELECT varos.vnev
+FROM varos
+WHERE varos.megyeid = (
+	SELECT varos.megyeid
+	FROM varos
+	WHERE varos.vnev = "Mohács")
+AND varos.vnev <> "Mohács";
+
+
+--Melyik megyékben van több város és mennyi, mint Csongrád megyében:
+SELECT megye.mnev, COUNT(*)
+FROM megye INNER JOIN varos ON megye.id = varos.megyeid
+GROUP BY megye.mnev
+HAVING COUNT(*) > (
+    SELECT COUNT(*)
+	FROM varos INNER JOIN megye ON megye.id = varos.megyeid
+	WHERE megye.mnev = "Csongrád");
+
+--Őstermelős feladat
+SELECT DISTINCT partnerek.telepules
+FROM partnerek
+ORDER BY partnerek.telepules;
+
+SELECT COUNT(*) AS alkalmak
+FROM kiszallitasok INNER JOIN partnerek ON kiszallitasok.partnerid = partnerek.id
+WHERE partnerek.telepules = "Vác";
+
+SELECT kiszallitasok.karton AS legtobb
+FROM kiszallitasok
+WHERE kiszallitasok.datum LIKE "2016-05%"
+ORDER BY kiszallitasok.karton DESC
+LIMIT 1;
+
+SELECT partnerek.telepules, COUNT(*)
+FROM partnerek
+GROUP BY partnerek.telepules
+HAVING COUNT(*) > 1;
+
+SELECT gyumolcslevek.gynev AS ital, SUM(kiszallitasok.karton * 6) AS dobozok
+FROM gyumolcslevek INNER JOIN kiszallitasok ON gyumolcslevek.id = kiszallitasok.gyumleid
+GROUP BY gyumolcslevek.gynev
+ORDER BY dobozok DESC
+
+
+--Kultúrtörténet
+--Lekérdezés segítségével írassa ki azon csapatok nevét, amelyek neve a # karakterrel kezdődik!
+SELECT csapat.nev
+FROM csapat
+WHERE csapat.nev LIKE "#%";
+
+
+--A feladatsor táblát használva, lekérdezés segítségével jelenítse meg a feladatsor névadójának nevét, ha abban pontosan egy szóköz van!
+SELECT feladatsor.nevado
+FROM feladatsor
+WHERE feladatsor.nevado LIKE "% %" AND feladatsor.nevado NOT LIKE "% % %";
+
+
+--Készítsen lekérdezést, amely megadja, hogy ki a névadója a 2018. szilveszterkor aktív feladatsornak!
+SELECT feladatsor.nevado
+FROM feladatsor
+WHERE feladatsor.kituzes < "2018-12-31" AND feladatsor.hatarido > "2018-12-31";
+
+
+--Készítsen lekérdezést, amely meghatározza a végeredményt! A csapatok neve és az általuk elért összpontszám jelenjen meg, utóbbi szerint csökkenő sorrendben!
+SELECT csapat.nev, SUM(megoldas.pontszam) AS osszpont
+FROM megoldas INNER JOIN csapat ON megoldas.csapatid = csapat.id
+GROUP BY csapat.nev
+ORDER BY osszpont DESC;
+
+--Eredetileg úgy tervezték, hogy minden feladatsor 150 pontos lesz. Néhány esetben a kitűzés után kellett módosítani a feladatsoron, így ez nem valósult meg. Adja meg lekérdezéssel azokat a feladatsorokat, amelyek nem 150 pontosak! A feladatsor névadóját, a művészeti ágat és a pontszámot jelenítse meg!
+SELECT feladatsor.nevado, feladatsor.ag, SUM(feladat.pontszam) AS osszpont
+FROM feladatsor INNER JOIN feladat ON feladatsor.id = feladat.feladatsorid
+GROUP BY feladatsor.id
+HAVING osszpont <> 150;
+
+--Lekérdezés segítségével listázza ki azon csapatok nevét, amelyeknek volt maximális pontszámot érő feladata! Minden csapat neve egyszer jelenjen meg!
+SELECT DISTINCT csapat.nev
+FROM feladat INNER JOIN megoldas ON feladat.id = megoldas.feladatid INNER JOIN csapat ON megoldas.csapatid = csapat.id
+WHERE feladat.pontszam = megoldas.pontszam;
+
+--Bár a versenyzők lelkesek voltak és törekedtek minden feladatot megoldani, ennek ellenére előfordult, hogy nem minden feladatra adtak be megoldást. Készítsen lekérdezést, amelymegadja, hogy a „#win” csapat mely feladatsorokból hány feladatot nem adott be! Jelenítse meg a feladatsor névadóját és a be nem adott feladatok számát!
+SELECT feladatsor.nevado, COUNT(*)
+FROM feladatsor INNER JOIN feladat ON feladatsor.id = feladat.feladatsorid
+WHERE feladat.id NOT IN(
+	SELECT megoldas.feladatid
+	FROM megoldas INNER JOIN csapat ON megoldas.csapatid = csapat.id
+	WHERE csapat.nev = "#win")
+GROUP BY feladatsor.id;
+
+
+--Készítsen lekérdezést, amely megadja, hogy az „irodalom” művészeti ághoz tartozó feladatsorok közül melyeket kellett ugyanabban a hónapban beadni, mint amikor kitűzték? Adja meg a feladatsorok névadóját!
+SELECT feladatsor.nevado
+FROM feladatsor
+WHERE MONTH(feladatsor.kituzes) = MONTH(feladatsor.hatarido) AND feladatsor.ag = "irodalom";
+
+--Lekérdezés segítségével adja meg, melyik feladatsor megoldására volt a legkevesebb idő! A feladatsor névadóját jelenítse meg! Ha több ilyen feladatsor van, elegendő az egyiket megadnia.
+SELECT feladatsor.nevado, DATEDIFF(feladatsor.hatarido, feladatsor.kituzes) AS napok
+FROM feladatsor
+ORDER BY napok ASC
+LIMIT 1;
+
+
+--Készítsen lekérdezést, amely megadja, hogy mely feladatoksorokat tűzték ki az előző beadási határidejét követő napon! A feladatsor névadóját és a kitűzés idejét jelenítse meg! A feladat megoldása során kihasználhatja, hogy egyszerre csak egy feladatsor volt aktív.
+SELECT kovetkezo.nevado, kovetkezo.kituzes
+FROM feladatsor AS elozo, feladatsor AS kovetkezo
+WHERE DATEDIFF(kovetkezo.kituzes, elozo.hatarido) = 1;
+
+--Heltai Olga által írt magyar szövegek
+SELECT film.cim, film.eredeti FROM film WHERE film.magyarszoveg = "Heltai Olga";
+
+--2000 utáni filmek rendező-szinkronrendező párosai
+SELECT DISTINCT film.rendezo, film.szinkronrendezo
+FROM film
+WHERE film.ev > 2000;
+
+--Christopher Nolan Mafilm Audio Kft.-tél készült magyar szövegei
+SELECT film.magyarszoveg, film.cim
+FROM film
+WHERE film.rendezo = "Christopher Nolan" AND film.studio = "Mafilm Audio Kft."
+ORDER BY film.magyarszoveg ASC;
+
+--Anger Zsolt szinkronzerepei
+SELECT film.cim, film.eredeti, szinkron.szinesz, szinkron.szerep
+FROM film INNER JOIN szinkron ON film.filmaz = szinkron.filmaz
+WHERE szinkron.hang = "Anger Zsolt";
+
+--MElyik filmben mennyi szinkronszerep van
+SELECT film.cim, film.eredeti, COUNT(szinkron.szinkid)
+FROM film INNER JOIN szinkron ON film.filmaz = szinkron.filmaz
+GROUP BY film.cim, film.eredeti;
+
+--rabbal kezdődő szerepek
+SELECT szinkron.szerep, szinkron.szinesz, szinkron.hang
+FROM szinkron
+WHERE szinkron.szerep LIKE "rab%" OR szinkron.szerep LIKE "% rab%";
+
+--Színés és rendező is
+SELECT DISTINCT szinkron.szinesz AS "Színész-rendező"
+FROM szinkron
+WHERE szinkron.szinesz IN (
+    SELECT film.rendezo
+	FROM film);
+
+--Pap Katival egy szonkronban szereplő hangok
+SELECT film.cim, szinkron.hang
+FROM film INNER JOIN szinkron ON film.filmaz = szinkron.filmaz
+WHERE film.filmaz IN (
+	SELECT film.filmaz
+	FROM film INNER JOIN szinkron ON film.filmaz = szinkron.filmaz
+	WHERE szinkron.hang = "Pap Kati") AND szinkron.hang <> "Pap Kati"
+ORDER BY film.cim ASC, szinkron.hang ASC;
+
+--Legalább 3-szor szinkronizálta
+SELECT szinkron.szinesz, szinkron.hang, COUNT(*)
+FROM szinkron
+GROUP BY szinkron.szinesz, szinkron.hang
+HAVING COUNT(*) >= 3
+ORDER BY COUNT(*) DESC;
+
+--Ugyanabban az évben a  Mafilmnél és egy másik stúdiónál is szinkronizált.
+SELECT DISTINCT f1.ev, sz1.hang
+FROM film AS f1, szinkron AS sz1, film AS f2, szinkron AS sz2
+WHERE f1.ev = f2.ev
+AND sz1.hang = sz2.hang
+AND f1.studio <> "Mafilm Audio Kft."
+AND f2.studio = "Mafilm Audio Kft."
+AND f1.filmaz = sz1.filmaz
+AND f2.filmaz = sz2.filmaz
+ORDER BY sz1.hang;
+
+
+--Készítsen lekérdezést, amely megadja, hogy az adatbázisban milyen közterületeken kínálnak lakást! Minden közterület neve csak egyszer, ábécérendben jelenjen meg!
+
+SELECT DISTINCT ingatlan.kozterulet
+FROM ingatlan
+ORDER BY ingatlan.kozterulet ASC;
+
+
+--Lekérdezés segítségével adja meg, hogy az „Agyagos utca” ingatlanjait milyen áron hirdették meg! Jelenítse meg a házszámot és a meghirdetéskor megadott árat!
+
+SELECT ingatlan.hazszam, hirdetes.ar
+FROM ingatlan INNER JOIN hirdetes ON ingatlan.id = hirdetes.ingatlanid
+WHERE ingatlan.kozterulet = "Agyagos utca" AND hirdetes.allapot = "meghirdetve";
+
+--Készítsen lekérdezést, amely megadja, hogy a közvetítő cég az itt szereplő ingatlanok eladásából mennyi bevételre tett szert 2021-ben, ha az eladási ár 1,5 százalékát mint közvetítői díjat megkapta!
+
+SELECT SUM(hirdetes.ar) * 0.015
+FROM hirdetes
+WHERE hirdetes.allapot = "eladva";
+
+
+--Lekérdezés segítségével adja meg, hogy a legdrágábban meghirdetett ingatlan ára hányszorosa volt a legolcsóbban meghirdetett ingatlan árának! Az árváltozásokat és az eladásokat ne vegye figyelembe! Adja meg az arányt kerekítés nélkül!
+
+SELECT ROUND(MAX(hirdetes.ar) / MIN(hirdetes.ar), 0)
+FROM hirdetes
+WHERE hirdetes.allapot = "meghirdetve";
+
+--Lekérdezés segítségével határozza meg, hogy melyik az az ingatlan, amelyet a legrégebben hirdettek meg, de még nem adtak el, és amelynek a hirdetését sem módosították! Jelenítse meg a közterület nevét és a házszámot, valamint a hirdetés feladásának dátumát! Ha több ilyen ingatlan van, akkor elég az egyik adatait megjelenítenie.
+
+SELECT ingatlan.kozterulet, ingatlan.hazszam, hirdetes.datum
+FROM ingatlan INNER JOIN hirdetes ON ingatlan.id = hirdetes.ingatlanid
+WHERE hirdetes.allapot = "meghirdetve" AND ingatlan.id NOT IN(
+    SELECT hirdetes.ingatlanid
+	FROM hirdetes
+	WHERE hirdetes.allapot = "módosítva" OR hirdetes.allapot = "eladva")
+ORDER BY hirdetes.datum ASC
+LIMIT 1;
+
+
+--Lekérdezés segítségével adja meg azokat az ingatlanokat, amelyeket ugyanazon az áron adtak el, mint amilyenen meghirdették őket! Vegye figyelembe, hogy az ingatlan ára az eladáskor is változhat. Az ingatlan címét, azaz a közterület nevét és a házszámot, valamint az árát jelenítse meg!
+
+SELECT ingatlan.kozterulet, ingatlan.hazszam, h1.ar
+FROM hirdetes AS h1, hirdetes AS h2, ingatlan
+WHERE h1.allapot = "meghirdetve"
+AND h2.allapot = "eladva"
+AND h1.ingatlanid = h2.ingatlanid
+AND h1.ar = h2.ar
+AND h1.ingatlanid = ingatlan.id;
+
+
+--Az ingatlanosok az alapterület meghatározásánál a terasz területét csak 50%-ban számítják bele az alapterületbe. Készítsen lekérdezést, amelyik megadja a 180 négyzetméternél nagyobb alapterületű ingatlanok címét és területét!
+
+SELECT ingatlan.kozterulet, ingatlan.hazszam,
+SUM(IF(helyiseg.funkcio = "terasz", helyiseg.szel * helyiseg.hossz / 2, helyiseg.szel * helyiseg.hossz)) AS terulet
+FROM ingatlan INNER JOIN helyiseg ON ingatlan.id = helyiseg.ingatlanid
+GROUP BY ingatlan.id
+HAVING terulet > 180 
+ORDER BY `terulet` DESC
+
+
+--Színházi bemutatók
+
+SELECT szinhaz.nev, szinhaz.szekhely
+FROM szinhaz
+WHERE szinhaz.nev LIKE "%Kamara%" AND szinhaz.belfoldi = 1;
+
+SELECT DISTINCT eloadas.nyelv
+FROM eloadas
+WHERE eloadas.nyelv <> "magyar";
+
+SELECT eloadas.datum, eloadas.cim
+FROM eloadas
+WHERE eloadas.szinhazid IS NULL;
+
+SELECT szinhaz.nev, eloadas.datum, eloadas.mufaj
+FROM szinhaz INNER JOIN eloadas ON szinhaz.id = eloadas.szinhazid
+WHERE eloadas.cim = "A kis herceg"
+ORDER BY eloadas.datum ASC;
+
+SELECT AVG(tulajdonsag.ertek) / 60 AS atlagora
+FROM tulajdonsag INNER JOIN eloadas ON eloadas.id = tulajdonsag.eloadasid
+WHERE eloadas.mufaj = "opera" AND tulajdonsag.ertek IS NOT NULL AND tulajdonsag.nev = "perc";
+
+SELECT szinhaz.nev, COUNT(*) AS db
+FROM szinhaz INNER JOIN eloadas ON szinhaz.id = eloadas.szinhazid
+GROUP BY szinhaz.nev
+HAVING db >= 100;
+
+SELECT szinhaz.szekhely, COUNT(*)
+FROM szinhaz
+WHERE szinhaz.szekhely <> (
+    SELECT szinhaz.szekhely
+	FROM szinhaz
+	GROUP BY szinhaz.szekhely
+	ORDER BY COUNT(*) DESC
+	LIMIT 1)
+GROUP BY szinhaz.szekhely
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+--Lugosi Béla által foglalt szobák
+SELECT foglalasok.szobaId, foglalasok.napok
+FROM foglalasok INNER JOIN vendegek ON foglalasok.vendegId = vendegek.id
+WHERE vendegek.nev = "Lugosi Béla";
+
+--2-ik emeleti szobák száma
+SELECT COUNT(*) AS masodik_emeleti_szobak_szama
+FROM szobak
+WHERE szobak.emelet = 2;
+
+--Az 5 legtöbb napra foglalt szoba
+SELECT szobak.id, szobak.szobaszam, szobak.megjegyzes, SUM(foglalasok.napok) AS szumma_nap
+FROM szobak INNER JOIN foglalasok ON szobak.id = foglalasok.szobaId
+GROUP BY szobak.id
+ORDER BY szumma_nap DESC
+LIMIT 5;
+
+--Melyik ember foglalt összesen a legnagyobb értékben:
+SELECT vendegek.nev AS foglalo_neve, SUM(foglalasok.napok * szobak.ar) AS szumma_ar
+FROM szobak INNER JOIN foglalasok ON szobak.id = foglalasok.szobaId
+INNER JOIN vendegek ON foglalasok.vendegId = vendegek.id
+GROUP BY vendegek.id
+ORDER BY szumma_ar DESC
+LIMIT 1;
+
+SELECT vendegek.nev AS foglalo_neve, SUM(foglalasok.napok * szobak.ar) AS szumma_ar
+FROM szobak, foglalasok, vendegek
+WHERE szobak.id = foglalasok.szobaId AND foglalasok.vendegId = vendegek.id
+GROUP BY vendegek.id
+ORDER BY szumma_ar DESC
+
+
+--Kik szálltak meg ugyanzokban a szobákban, mint Kiss Károly
+SELECT DISTINCT vendegek.nev
+FROM vendegek INNER JOIN foglalasok ON vendegek.id = foglalasok.vendegId
+WHERE foglalasok.szobaId IN(
+	SELECT foglalasok.szobaId
+	FROM foglalasok INNER JOIN vendegek ON foglalasok.vendegId = vendegek.id
+	WHERE vendegek.nev = "Kiss Károly")
+AND vendegek.nev <> "Kiss Károly";
+
+
+--Megjegyzésenként a szobák száma
+SELECT szobak.megjegyzes, COUNT(*) AS szobak_szama
+FROM szobak
+WHERE szobak.megjegyzes IS NOT NULL
+GROUP BY szobak.megjegyzes
+ORDER BY szobak_szama DESC;
+

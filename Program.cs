@@ -1,70 +1,133 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace _0305
+namespace hegyek
 {
     internal class Program
     {
+        class Hegy
+        {
+            public string Nev { get; set; }
+            public string Hegyseg { get; set; }
+            public int Magas { get; set; }
+
+            public Hegy(string sor)
+            {
+                string[] darabok = sor.Split(';');
+                Nev = darabok[0];
+                Hegyseg = darabok[1];
+                Magas = int.Parse(darabok[2]);
+            }
+        }
         static void Main(string[] args)
         {
-            int[,] szamok = new int[10, 10];
-            Random rnd = new Random();
+            List<Hegy> hegyek = new List<Hegy>();
+            string[] sorok = File.ReadAllLines("hegyekMO.txt");
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i < sorok.Length; i++)
             {
-                for (int j = 0; j < 10; j++)
+                Hegy h = new Hegy(sorok[i]);
+                hegyek.Add(h);
+            }
+
+            Console.WriteLine($"Hegycsúcsok száma {hegyek.Count}");
+
+            int osszeg = 0;
+
+            foreach (var h in hegyek)
+            {
+                osszeg += h.Magas;
+            }
+
+            double atlag = (double)osszeg / hegyek.Count;
+            Console.WriteLine($"A hegyek magasságának átlaga {atlag}");
+
+            Hegy max = hegyek[0];
+
+            foreach (var h in hegyek)
+            {
+                if (h.Magas > max.Magas)
                 {
-                    szamok[i, j] = rnd.Next(1, 100);
+                    max = h;
                 }
             }
 
-            Console.WriteLine("Eredeti számok:");
-            for (int i = 0; i < 10; i++)
+            Console.WriteLine(max.Nev);
+            Console.WriteLine(max.Hegyseg);
+            Console.WriteLine(max.Magas);
+
+            Console.WriteLine("Írjon be egy magasságot: ");
+            int magas = int.Parse(Console.ReadLine());
+
+            bool van = false;
+
+            foreach (var h in hegyek)
             {
-                for (int j = 0; j < 10; j++)
+                if (h.Magas > magas && h.Hegyseg == "Börzsöny")
                 {
-                    Console.Write(szamok[i, j].ToString().PadLeft(3) + " ");
+                    van = true;
+                    break;
                 }
-                Console.WriteLine();
             }
-            Console.WriteLine();
 
-           
-            for (int k = 1; k <= 4; k++)
+            if (van)
             {
-                int[,] elforgatott = new int[10, 10];
+                Console.WriteLine("Van ennél nagyobb.");
+            }
+            else
+            {
+                Console.WriteLine("Nincs ennél nagyobb.");
+            }
 
-                for (int i = 0; i < 10; i++)
+            double lab = 3.280839895;
+            int db = 0;
+
+            foreach (var h in hegyek)
+            {
+                if (h.Magas * lab > 3000)
                 {
-                    for (int j = 0; j < 10; j++)
+                    db++;
+                }
+            }
+
+            Console.WriteLine($"A 3000 lábnál nagyobb hegyek száma: {db}");
+
+            HashSet<string> hegysegek = new HashSet<string>();
+            foreach (var h in hegyek)
+            {
+                hegysegek.Add(h.Hegyseg);
+            }
+
+
+            foreach (var hegyseg in hegysegek)
+            {
+                db = 0;
+                foreach (var h in hegyek)
+                {
+                    if (h.Hegyseg == hegyseg)
                     {
-                        elforgatott[j, 9 - i] = szamok[i, j];
+                        db++;
                     }
                 }
-
-                szamok = elforgatott;
-
-                
-
-                Console.WriteLine($"{k}. elforgatás:");
-                for (int i = 0; i < 10; i++)
-                {
-                    for (int j = 0; j < 10; j++)
-                    {
-                        Console.Write(szamok[i, j].ToString().PadLeft(3) + " ");
-                    }
-                    Console.WriteLine();
-                }
-                Console.WriteLine();
+                Console.WriteLine($"{hegyseg} - {db}");
             }
 
+            StreamWriter sw = new StreamWriter("bukk-videk.txt");
+            sw.WriteLine("Hegycsúcs neve; Magasság láb");
+            foreach (var h in hegyek)
+            {
+                if (h.Hegyseg == "Bükk-vidék")
+                {
+                    sw.WriteLine($"{h.Nev};{h.Magas * lab:0.0}");
+                }
+            }
 
-
-            Console.ReadKey();
+            sw.Close();
         }
     }
 }
