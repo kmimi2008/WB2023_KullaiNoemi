@@ -1,133 +1,147 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace hegyek
+namespace sebesseg
 {
+    public class Utszakasz
+    {
+        public int hossz;
+        public string jel;
+        public int megengedett_seb;
+        public int sebesseg;
+
+        public Utszakasz(string line, int seb)
+        {
+            string[] sz = line.Split(' ');
+            this.hossz = int.Parse(sz[0]);
+            this.jel = sz[1];
+            if (jel.Length >= 4) this.megengedett_seb = 50; else this.megengedett_seb = 90;
+                this.sebesseg = sebessegSzamitas(seb);
+        }
+        int sebessegSzamitas(int seb)
+        {
+            if (jel.Length >= 4) return 50; // 4 karakter vagy annál több 
+            else if (jel == "]") return 90;
+            else if (jel == "#" || jel == "%") return megengedett_seb;
+            else return (int.Parse(jel));
+        }
+        
+    }
     internal class Program
     {
-        class Hegy
-        {
-            public string Nev { get; set; }
-            public string Hegyseg { get; set; }
-            public int Magas { get; set; }
-
-            public Hegy(string sor)
-            {
-                string[] darabok = sor.Split(';');
-                Nev = darabok[0];
-                Hegyseg = darabok[1];
-                Magas = int.Parse(darabok[2]);
-            }
-        }
         static void Main(string[] args)
         {
-            List<Hegy> hegyek = new List<Hegy>();
-            string[] sorok = File.ReadAllLines("hegyekMO.txt");
+            // 1. feladat: Letárolás
 
-            for (int i = 1; i < sorok.Length; i++)
+            List<Utszakasz> list = new List<Utszakasz>();
+            StreamReader sr = new StreamReader("ut.txt", Encoding.UTF8);
+            int teljes_tav = Convert.ToInt32(sr.ReadLine());
+            int sebesseg = 90;
+            while(!sr.EndOfStream)
             {
-                Hegy h = new Hegy(sorok[i]);
-                hegyek.Add(h);
+                list.Add(new Utszakasz(sr.ReadLine(), sebesseg));
+            }
+            sr.Close();
+
+
+
+            // 2. feladat: Települések neve
+
+            Console.WriteLine("2. feladat:\nA települések neve:");
+            foreach (var item in list)
+            {
+                if(item.jel.Length >= 4) Console.WriteLine(item.jel);
             }
 
-            Console.WriteLine($"Hegycsúcsok száma {hegyek.Count}");
 
-            int osszeg = 0;
+            // 3. feladat: Legalacsonyabb megengedett sebesség adott hosszon
 
-            foreach (var h in hegyek)
+            Console.WriteLine("3. feladat:\nAdja meg a vizsgált szakasz hosszát km-ben!");
+
+            double tavolsag = 0;
+
+            do
             {
-                osszeg += h.Magas;
-            }
-
-            double atlag = (double)osszeg / hegyek.Count;
-            Console.WriteLine($"A hegyek magasságának átlaga {atlag}");
-
-            Hegy max = hegyek[0];
-
-            foreach (var h in hegyek)
-            {
-                if (h.Magas > max.Magas)
+                try
                 {
-                    max = h;
+                    tavolsag = double.Parse(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    tavolsag = 0;
                 }
             }
 
-            Console.WriteLine(max.Nev);
-            Console.WriteLine(max.Hegyseg);
-            Console.WriteLine(max.Magas);
+            while (!(tavolsag > 0 && tavolsag * 1000 <= teljes_tav));
+            int legalacsonyabb = 90;
+            int ii = 0;
 
-            Console.WriteLine("Írjon be egy magasságot: ");
-            int magas = int.Parse(Console.ReadLine());
-
-            bool van = false;
-
-            foreach (var h in hegyek)
+            while (list[ii].hossz <= tavolsag * 1000)
             {
-                if (h.Magas > magas && h.Hegyseg == "Börzsöny")
+                if (list[ii].sebesseg <= legalacsonyabb) legalacsonyabb = list[ii].sebesseg;
+                ii++;
+            }
+
+            Console.WriteLine($"Az első {tavolsag} km-en {legalacsonyabb} km/h volt a legalacsonyabb megengedett sebesség.");
+
+
+            // 4. feladat: Településen belül lévő út százaléka
+
+            double lakott = 0;
+            int kezdet = 0;
+            int lakott_hossz = 0;
+
+            foreach (var item in list) 
+            {
+                if (item.jel.Length >= 4) kezdet = item.hossz;
+                if (item.jel == "]") lakott_hossz += item.hossz - kezdet;
+            }
+            lakott = (double)lakott_hossz / (double)teljes_tav * 100;
+
+            Console.WriteLine($"4. feladat:\nAz út {lakott:0.00} százaléka vezet településen belül.");
+
+
+            // 5. feladat:
+
+            Console.Write("5. feladat:\tAdja meg a település nevét: ");
+            string telepules = Console.ReadLine();
+            int tablak_szama = 0;
+            int uthossz = 0;
+            kezdet = 0; // Lenullázzuk újra
+
+            foreach (var item in list)
+            {
+                if (item.jel == telepules && item.jel.Length >= 4)
                 {
-                    van = true;
+                    kezdet = item.hossz;
+                    tablak_szama = 0;
+                }
+
+                if (item.jel.Length == 2) tablak_szama++;
+
+                if (item.jel == "]" && kezdet != 0)
+                {
+                    uthossz = item.hossz - kezdet;
                     break;
                 }
             }
 
-            if (van)
-            {
-                Console.WriteLine("Van ennél nagyobb.");
-            }
-            else
-            {
-                Console.WriteLine("Nincs ennél nagyobb.");
-            }
-
-            double lab = 3.280839895;
-            int db = 0;
-
-            foreach (var h in hegyek)
-            {
-                if (h.Magas * lab > 3000)
-                {
-                    db++;
-                }
-            }
-
-            Console.WriteLine($"A 3000 lábnál nagyobb hegyek száma: {db}");
-
-            HashSet<string> hegysegek = new HashSet<string>();
-            foreach (var h in hegyek)
-            {
-                hegysegek.Add(h.Hegyseg);
-            }
+            if (kezdet == 0) Console.WriteLine("Nincs ilyen település.");
+            else Console.WriteLine($"A sebességkorlátozók száma: {tablak_szama}\n" +
+                $"Az út hossza a településen belül: {uthossz}m.");
 
 
-            foreach (var hegyseg in hegysegek)
-            {
-                db = 0;
-                foreach (var h in hegyek)
-                {
-                    if (h.Hegyseg == hegyseg)
-                    {
-                        db++;
-                    }
-                }
-                Console.WriteLine($"{hegyseg} - {db}");
-            }
+            // 6. feladat: 
 
-            StreamWriter sw = new StreamWriter("bukk-videk.txt");
-            sw.WriteLine("Hegycsúcs neve; Magasság láb");
-            foreach (var h in hegyek)
-            {
-                if (h.Hegyseg == "Bükk-vidék")
-                {
-                    sw.WriteLine($"{h.Nev};{h.Magas * lab:0.0}");
-                }
-            }
 
-            sw.Close();
+            
+
+
+            Console.ReadKey();
         }
     }
 }

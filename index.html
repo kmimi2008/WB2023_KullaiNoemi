@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" onchange="beolvasas(this)">
+    <div id="fuggetlenek"></div>
+</body>
+<script>
+    class Szavazat{
+        constructor(korzet, szavazatok, veznev, utonev, part){
+            this.korzet = korzet;
+            this.szavazatok = szavazatok;
+            this.veznev = veznev;
+            this.utonev = utonev;
+            this.part = part;
+        }
+    }
+
+    function beolvasas(mit){
+        let file = mit.files[0]
+        let olvaso = new FileReader();
+        console.log(file);
+
+        olvaso.readAsText(file);
+
+        olvaso.onload = function(){
+            let tartalom = olvaso.result;
+            let szavazatok = [];
+            let sorok = tartalom.split("\r\n");
+
+            for (let i = 1; i < sorok.length; i++){
+                let darabok = sorok[i].split(" ");
+                let sz = new Szavazat(darabok[0], parseInt(darabok[1]), darabok[2], darabok[3], darabok[4]);
+                szavazatok.push(sz);
+
+            }
+
+            // 1. feladat:
+            console.log(szavazatok.length + " jelölt indult a választáson.")
+            //console.log(szavazatok);
+
+            // 2. feladat:
+            let zep = 0;
+                
+                for (let i = 0; i < szavazatok.length; i++)
+                {
+                    if(szavazatok[i].part === "ZEP"){
+                        zep++;
+                    }
+                }
+                
+            console.log(zep);
+
+            let db = 0;
+            for (const sz of szavazatok) {
+                    if(sz.part === "ZEP"){
+                        db++;
+                    }
+                }
+                console.log(db);
+
+
+        // 3. feladat:
+        let max = szavazatok[0];
+            for(let i = 0; i < szavazatok.length; i++)
+            {
+                if (szavazatok[i].korzet == "1" && szavazatok[i].szavazatok > max.szavazatok)
+                {
+                    max = szavazatok[i];
+                }
+            }
+
+            console.log(max.veznev + " " + max.utonev + " kapta a legtöbb szavazatot.");
+
+        // 4. feladat:
+        let partok = new Set();
+            for (let i = 0; i < szavazatok.length - 1; i++){
+                partok.add(szavazatok[i].part);
+            }
+
+         for (const p of partok) {
+                db = 0;
+                for (let i = 0; i < szavazatok.length; i++)
+                {
+                    if(szavazatok[i].part == p){
+                        db++;
+                    }
+                }
+                console.log(p + ": " + db);
+
+    
+            }
+
+    }
+
+    
+        
+          
+
+    }
+
+
+</script>
+</html>
