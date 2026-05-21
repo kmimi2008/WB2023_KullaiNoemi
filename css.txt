@@ -1,0 +1,292 @@
+color - szöveg színe
+background - háttér beállítás
+background-color - háttér színe
+background-image - háttérkép
+background-size - háttér méretezése
+background-position - háttér helyzete
+background-repeat - háttér ismétlése
+font-size - betű mérete
+font-family - betűtípus
+font-weight - betű vastagsága
+font-style - dőlt szöveg
+font-variant - kis kapitális
+line-height - sortávolság
+letter-spacing - betűköz
+word-spacing - szóköz
+text-align - szöveg igazítása
+text-decoration - szöveg díszítése
+text-transform - nagybetűsítés
+text-shadow - szöveg árnyéka
+text-indent - első sor behúzás
+white-space - sortörés kezelés
+word-break - szó tördelés
+overflow-wrap - hosszú szó törése
+direction - szöveg iránya
+unicode-bidi - bidirekciós szöveg
+vertical-align - függőleges igazítás
+opacity - átlátszóság
+visibility - láthatóság
+display - megjelenítés típusa
+width - szélesség
+height - magasság
+max-width - max szélesség
+min-width - min szélesség
+max-height - max magasság
+min-height - min magasság
+margin - külső margó
+margin-top - felső margó
+margin-right - jobb margó
+margin-bottom - alsó margó
+margin-left - bal margó
+padding - belső margó
+padding-top - felső kitöltés
+padding-right - jobb kitöltés
+padding-bottom - alsó kitöltés
+padding-left - bal kitöltés
+border - keret
+border-width - keret vastagsága
+border-style - keret típusa
+border-color - keret színe
+border-radius - lekerekítés
+outline - külső keret
+outline-color - külső keret színe
+outline-width - külső keret vastagsága
+outline-style - külső keret típusa
+box-shadow - doboz árnyék
+overflow - túlcsordulás kezelése
+overflow-x - vízszintes túlcsordulás
+overflow-y - függőleges túlcsordulás
+clip-path - kivágás alakja
+filter - szűrő effekt
+backdrop-filter - háttér szűrés
+position - pozíció típusa
+top - felső eltolás
+right - jobb eltolás
+bottom - alsó eltolás
+left - bal eltolás
+z-index - réteg sorrend
+float - lebegtetés
+clear - lebegés törlése
+cursor - egérkurzor
+resize - átméretezés
+object-fit - kép igazítás
+object-position - kép helyzete
+aspect-ratio - képarány
+box-sizing - méretezési mód
+content - tartalom beszúrás
+quotes - idézőjelek típusa
+list-style - lista stílus
+list-style-type - lista jel
+list-style-position - lista pozíció
+list-style-image - lista kép
+table-layout - táblázat elrendezés
+border-collapse - keret összevonás
+border-spacing - cella távolság
+caption-side - cím helye
+empty-cells - üres cella kezelés
+transition - átmenet
+transition-property - átmenet property
+transition-duration - átmenet idő
+transition-delay - átmenet késés
+transition-timing-function - átmenet gyorsaság
+transform - átalakítás
+transform-origin - forgatás pont
+transform-style - 3D mód
+perspective - térhatás
+perspective-origin - nézőpont helye
+backface-visibility - hátlap láthatóság
+animation - animáció
+animation-name - animáció neve
+animation-duration - animáció idő
+animation-delay - animáció késés
+animation-iteration-count - ismétlés szám
+animation-direction - animáció irány
+animation-fill-mode - animáció végállapot
+animation-play-state - animáció állapot
+animation-timing-function - animáció sebesség
+display - megjelenítés
+inline-size - inline méret
+block-size - blokk méret
+place-items - elemek középre
+place-content - tartalom középre
+place-self - saját igazítás
+justify-content - vízszintes igazítás
+justify-items - elem igazítás
+justify-self - saját igazítás
+align-content - tartalom igazítás
+align-items - elem igazítás
+align-self - saját igazítás
+gap - elemek közti rés
+row-gap - sor távolság
+column-gap - oszlop távolság
+flex - flex méret
+flex-basis - alap méret
+flex-grow - növekedés
+flex-shrink - zsugorodás
+flex-direction - flex irány
+flex-wrap - flex tördelés
+flex-flow - flex rövidítés
+order - sorrend
+grid - grid rendszer
+grid-template-columns - oszlopok
+grid-template-rows - sorok
+grid-template-areas - terület nevek
+grid-column - oszlop hely
+grid-column-start - oszlop kezdés
+grid-column-end - oszlop vég
+grid-row - sor hely
+grid-row-start - sor kezdés
+grid-row-end - sor vég
+grid-area - grid terület
+grid-auto-columns - automata oszlop
+grid-auto-rows - automata sor
+grid-auto-flow - automata irány
+place-content - grid közép
+columns - oszlop szám
+column-count - oszlop darab
+column-width - oszlop szélesség
+column-gap - oszlop rés
+column-rule - oszlop vonal
+column-span - oszlop átfogás
+break-before - törés előtte
+break-after - törés utána
+break-inside - törés belül
+page-break-before - oldaltörés előtte
+page-break-after - oldaltörés utána
+page-break-inside - oldaltörés belül
+scroll-behavior - görgetés mód
+scroll-margin - görgetés margó
+scroll-padding - görgetés kitöltés
+scroll-snap-type - görgetés illesztés
+scroll-snap-align - görgetés igazítás
+scrollbar-width - görgetősáv szélesség
+scrollbar-color - görgetősáv szín
+user-select - kijelölés engedély
+pointer-events - kattintás kezelés
+caret-color - kurzor színe
+accent-color - vezérlő színe
+appearance - alap kinézet
+isolation - rétegek elkülönítés
+mix-blend-mode - réteg keverés
+background-blend-mode - háttér keverés
+mask - maszkolás
+mask-image - maszkkép
+mask-size - maszk méret
+mask-repeat - maszk ismétlés
+shape-outside - körbefolyás alak
+contain - render optimalizálás
+contain-intrinsic-size - belső méret
+will-change - optimalizálás
+touch-action - érintés kezelés
+writing-mode - írás irány
+hyphens - szóelválasztás
+tab-size - tab méret
+counter-reset - számláló nullázás
+counter-increment - számláló növelés
+counter-set - számláló állítás
+speak - felolvasás mód
+orphans - minimum sor
+widows - utolsó sor kezelés
+image-rendering - kép renderelés
+mix-blend-mode - réteg keverés
+inset - rövid pozíció
+inset-block - blokk pozíció
+inset-inline - inline pozíció
+overflow-anchor - görgetés rögzítés
+overscroll-behavior - túlgörgetés
+caret-shape - kurzor forma
+nav-index - navigáció sorrend
+nav-up - navigáció fel
+nav-down - navigáció le
+nav-left - navigáció bal
+nav-right - navigáció jobb
+all - minden property reset
+unset - alaphelyzet
+initial - kezdeti érték
+inherit - öröklés
+revert - visszaállítás
+clamp - dinamikus méret
+calc - számolás css-ben
+min - minimum választás
+max - maximum választás
+fit-content - tartalomhoz igazítás
+place-items - középre igazítás
+justify-tracks - track igazítás
+align-tracks - track igazítás
+grid-gap - grid rés
+grid-template - grid sablon
+grid-column-gap - oszlop rés
+grid-row-gap - sor rés
+flex-start - flex elejére
+flex-end - flex végére
+space-between - egyenletes távolság
+space-around - körülötte hely
+space-evenly - teljes egyenletesség
+sticky - ragadós pozíció
+absolute - abszolút pozíció
+relative - relatív pozíció
+fixed - fix pozíció
+static - alap pozíció
+inherit - szülő öröklés
+unset - törlés
+none - kikapcsolás
+auto - automatikus érték
+pointer - kéz kurzor
+grab - fogó kurzor
+crosshair - célkereszt kurzor
+not-allowed - tiltott kurzor
+zoom-in - nagyítás kurzor
+zoom-out - kicsinyítés kurzor
+ew-resize - vízszintes átméretezés
+ns-resize - függőleges átméretezés
+move - mozgatás kurzor
+help - segítség kurzor
+progress - folyamat kurzor
+wait - várakozás kurzor
+default - alap kurzor
+hidden - rejtett
+visible - látható
+collapse - összeomlott
+separate - külön keretek
+repeat - ismétlés
+no-repeat - nincs ismétlés
+cover - teljes kitöltés
+contain - teljes láthatóság
+center - középre
+left - balra
+right - jobbra
+top - felre
+bottom - le
+uppercase - nagybetű
+lowercase - kisbetű
+capitalize - kezdőbetű nagy
+underline - aláhúzás
+overline - föléhúzás
+line-through - áthúzás
+solid - folytonos
+dashed - szaggatott
+dotted - pontozott
+double - dupla vonal
+groove - bemélyedő keret
+ridge - kiemelkedő keret
+inset - belső hatás
+outset - külső hatás
+hidden - rejtett keret
+rtl - jobbról balra
+ltr - balról jobbra
+pre - formázott szöveg
+nowrap - nincs tördelés
+pre-wrap - tördelhető formázott
+ellipsis - három pont
+blur - elmosás
+brightness - fényerő
+contrast - kontraszt
+grayscale - szürkeárnyalat
+invert - szín invertálás
+saturate - telítettség
+sepia - barna effekt
+drop-shadow - vetett árnyék
+rotate - forgatás
+scale - méretezés
+translate - mozgatás
+skew - döntés

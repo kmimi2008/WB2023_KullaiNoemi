@@ -1,0 +1,244 @@
+<html> - html dokumentum
+<head> - metaadatok
+<title> - oldal címe
+<body> - oldal tartalma
+<meta> - meta információ
+<link> - külső fájl csatolás
+<style> - css írás
+<script> - javascript írás
+<noscript> - script nélküli tartalom
+<base> - alap url
+<header> - fejléc rész
+<nav> - navigáció
+<main> - fő tartalom
+<section> - szekció
+<article> - cikk rész
+<aside> - oldalsáv
+<footer> - lábléc
+<h1> - legnagyobb cím
+<h2> - cím
+<h3> - alcím
+<h4> - kisebb cím
+<h5> - kisebb alcím
+<h6> - legkisebb cím
+<p> - bekezdés
+<br> - sortörés
+<hr> - vízszintes vonal
+<div> - blokk elem
+<span> - inline elem
+<pre> - formázott szöveg
+<blockquote> - idézet blokk
+<q> - rövid idézet
+<abbr> - rövidítés
+<address> - cím információ
+<cite> - mű címe
+<code> - programkód
+<kbd> - billentyű bemenet
+<samp> - program kimenet
+<var> - változó
+<dfn> - definíció
+<strong> - fontos szöveg
+<em> - kiemelt szöveg
+<b> - félkövér
+<i> - dőlt
+<u> - aláhúzott
+<mark> - kiemelés
+<small> - kisebb szöveg
+<sub> - alsó index
+<sup> - felső index
+<del> - törölt szöveg
+<ins> - beszúrt szöveg
+<s> - áthúzott szöveg
+<a> - link
+<img> - kép
+<map> - képtérkép
+<area> - térkép terület
+<picture> - reszponzív kép
+<source> - média forrás
+<figure> - média csoport
+<figcaption> - média leírás
+<audio> - hang lejátszó
+<video> - videó lejátszó
+<track> - felirat
+<iframe> - beágyazott oldal
+<embed> - külső tartalom
+<object> - objektum
+<param> - objektum paraméter
+<ul> - rendezetlen lista
+<ol> - rendezett lista
+<li> - lista elem
+<dl> - leíró lista
+<dt> - fogalom
+<dd> - definíció
+<table> - táblázat
+<caption> - táblázat cím
+<thead> - táblázat fejléc
+<tbody> - táblázat törzs
+<tfoot> - táblázat lábléc
+<tr> - táblázat sor
+<th> - fejléc cella
+<td> - adat cella
+<col> - oszlop
+<colgroup> - oszlop csoport
+<form> - űrlap
+<input> - beviteli mező
+<textarea> - szövegmező
+<button> - gomb
+<select> - legördülő lista
+<option> - lista opció
+<optgroup> - opció csoport
+<label> - mező címke
+<fieldset> - mező csoport
+<legend> - csoport cím
+<datalist> - ajánlott lista
+<output> - kimenet
+<progress> - folyamatjelző
+<meter> - mérő
+<details> - lenyitható rész
+<summary> - lenyitó cím
+<dialog> - párbeszédablak
+<canvas> - rajzoló felület
+<svg> - vektor grafika
+<path> - svg útvonal
+<circle> - svg kör
+<rect> - svg téglalap
+<line> - svg vonal
+<polygon> - svg sokszög
+<polyline> - svg törtvonal
+<ellipse> - svg ellipszis
+<g> - svg csoport
+<text> - svg szöveg
+<defs> - svg definíció
+<linearGradient> - lineáris átmenet
+<radialGradient> - kör átmenet
+<stop> - átmenet pont
+<symbol> - svg szimbólum
+<use> - svg újrahasználás
+<template> - html sablon
+<slot> - komponens hely
+<data> - adat érték
+<time> - időpont
+<bdi> - irányfüggetlen szöveg
+<bdo> - szöveg irány
+<wbr> - szó törés pont
+<portal> - oldal átjáró
+<menu> - menü lista
+<menuitem> - menü elem
+<marquee> - mozgó szöveg
+<center> - középre igazítás
+<font> - betű beállítás
+<big> - nagyobb szöveg
+<tt> - írógép betű
+<frameset> - keret rendszer
+<frame> - keret
+<noframes> - keret nélküli rész
+<acronym> - mozaikszó
+<applet> - java applet
+<basefont> - alap betű
+<dir> - könyvtár lista
+<isindex> - kereső mező
+<listing> - lista szöveg
+<nextid> - következő azonosító
+<noembed> - beágyazás tiltás
+<plaintext> - sima szöveg
+<rb> - ruby alap
+<rtc> - ruby szöveg
+<ruby> - ruby annotáció
+<rp> - ruby zárójel
+<rt> - ruby kiejtés
+<strike> - áthúzott szöveg
+<xmp> - nyers szöveg
+<!DOCTYPE> - dokumentum típus
+<!-- --> - komment
+aria-label - akadálymentes címke
+aria-hidden - elrejtés olvasónak
+tabindex - tab sorrend
+contenteditable - szerkeszthető elem
+draggable - húzható elem
+hidden - rejtett elem
+spellcheck - helyesírás ellenőrzés
+translate - fordítás engedély
+loading - betöltés mód
+autoplay - automatikus lejátszás
+controls - vezérlők megjelenítés
+loop - ismétlés
+muted - némítás
+poster - videó borítókép
+src - forrás link
+href - hivatkozás
+alt - kép leírás
+title - elem címe
+id - egyedi azonosító
+class - css osztály
+style - inline css
+lang - nyelv
+dir - szöveg irány
+charset - karakterkódolás
+name - elem név
+value - érték
+placeholder - súgó szöveg
+required - kötelező mező
+disabled - letiltott elem
+readonly - csak olvasható
+checked - kijelölt állapot
+selected - kiválasztott opció
+multiple - több választás
+min - minimum érték
+max - maximum érték
+step - lépésköz
+pattern - regex ellenőrzés
+autocomplete - automatikus kitöltés
+autofocus - automatikus fókusz
+novalidate - validáció kikapcsolás
+method - küldési mód
+action - űrlap cél
+target - megnyitási hely
+download - fájl letöltés
+rel - kapcsolat típus
+media - média típus
+async - aszinkron script
+defer - késleltetett script
+crossorigin - külső kapcsolat
+sandbox - iframe védelem
+srcdoc - iframe html
+sizes - kép méretek
+srcset - reszponzív képek
+type - típus meghatározás
+accept - fájl típus engedély
+capture - kamera használat
+maxlength - max hossz
+minlength - min hossz
+cols - oszlop szám
+rows - sor szám
+wrap - sortörés mód
+shape - terület alak
+coords - koordináták
+usemap - képtérkép használat
+open - nyitott állapot
+high - magas érték
+low - alacsony érték
+optimum - optimális érték
+reversed - fordított lista
+start - lista kezdőszám
+span - oszlop átfogás
+colspan - oszlop egyesítés
+rowspan - sor egyesítés
+headers - fejléc kapcsolat
+scope - fejléc hatókör
+datetime - dátum idő
+pubdate - publikálási dátum
+manifest - alkalmazás manifest
+itemscope - mikroadat kezdés
+itemtype - mikroadat típus
+itemprop - mikroadat tulajdonság
+role - szerepkör
+inputmode - mobil billentyűzet
+enterkeyhint - enter gomb típus
+popover - felugró elem
+inert - interakció tiltás
+fetchpriority - betöltési prioritás
+decoding - kép dekódolás
+referrerpolicy - hivatkozási szabály
+integrity - fájl ellenőrzés
+nonce - biztonsági azonosító
+```
